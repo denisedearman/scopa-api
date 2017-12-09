@@ -4,19 +4,18 @@ class PlayersController < ApplicationController
     @player = Player.new(player_params)
 
     if @player.save
-      render json: @player.as_json
+      render json: @player
     else
       render json: {error: 'Unable to save player.'}
     end
   end
 
   def index
-    @players = Player.all
-    render json: @players.as_json
+    render json: Player.all
   end
 
   def show
-    render json: @player.as_json
+    render json: @player
   end
 
   private
