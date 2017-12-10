@@ -6,7 +6,7 @@ class GamesController < ApplicationController
   def create
     @game = Game.new(game_params)
     @game.complete = false;
-
+    binding.pry
     if @game.save
       render json: @game
     else
@@ -16,7 +16,7 @@ class GamesController < ApplicationController
   private
 
   def game_params
-    params.require(:game).permit(:player_1, :player_2)
+    params.require(:game).permit(:player_1, :player_2, cards: [])
   end
 
 end
