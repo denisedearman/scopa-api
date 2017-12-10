@@ -4,6 +4,32 @@ class Game < ActiveRecord::Base
   has_many :cards
 
 
+  def deck
+    self.cards.select{|card| card.in_deck}
+  end
+
+  def on_table
+    self.cards.select{|card| !card.in_deck && !card.player_id}
+  end
+
+
+  def deal
+    if self.deck.length == 40
+      for i in 0..3
+        card_index = rand(0..self.deck.length-1)
+        self.deck[card_index].place_on_table
+      end
+    end
+    if self.deck.length >=6
+      for i in 0..1
+        for j in 0..2
+          card_index = rand(0..self.deck.length-1)
+          card = self.deck[card_index]
+          card.assign_to_player(self.players[i])
+        end
+      end
+    end
+  end
 
   def player_1=(player_1_name)
      player = Player.find_or_create_by(name: player_1_name)

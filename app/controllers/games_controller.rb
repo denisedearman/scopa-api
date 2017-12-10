@@ -7,16 +7,15 @@ class GamesController < ApplicationController
   def create
     @game = Game.new(game_params)
     @game.complete = false;
-    binding.pry
     if @game.save
-      render json: {"game_id" => @game.id,"player_1" => @game.players[0].name, "player_2" => @game.players[1].name}.to_json
+      render json: {"game_id" => @game.id,"player_1" => @game.players[0].name, "player_2" => @game.players[1].name, "cards" => @game.cards}.to_json
     else
       render json: {error: 'Unable to save Game.'}
     end
   end
 
   def show
-    render json: {"game_id" => @game.id, "player_1" => @game.players[0].name, "player_2" => @game.players[1].name}.to_json
+    render json: {"game_id" => @game.id, "player_1" => @game.players[0].name, "player_2" => @game.players[1].name, "cards" => @game.cards}.to_json
   end
 
   private
