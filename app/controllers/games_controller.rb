@@ -1,4 +1,4 @@
-class GameController < ApplicationController
+class GamesController < ApplicationController
 
   def index
   end
@@ -16,7 +16,7 @@ class GameController < ApplicationController
   private
 
   def game_params
-    params.require(:game).permit(:players)
+    params.require(:game).permit(:player_1, :player_2)
   end
 
 end

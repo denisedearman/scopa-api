@@ -5,13 +5,14 @@ class Game < ActiveRecord::Base
 
 
 
-  def players=(players_attributes)
-    players_attributes.each do |player|
-      player_game = PlayerGame.new
-      player_game.game = self
-      player_game.player = player
-      player_game.save
-    end
+  def player_1=(player_1_name)
+     player = Player.find_or_create_by(name: player_1_name)
+     self.player_games << PlayerGame.new(player: player)
+  end
+
+  def player_2=(player_2_name)
+    player = Player.find_or_create_by(name: player_2_name)
+    self.player_games << PlayerGame.new(player: player)
   end
 
 end
