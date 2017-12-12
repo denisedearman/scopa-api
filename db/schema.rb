@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171007160548) do
+ActiveRecord::Schema.define(version: 20171212015631) do
 
   create_table "cards", force: :cascade do |t|
     t.string "suit"
@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(version: 20171007160548) do
     t.integer "points"
     t.boolean "in_deck"
     t.boolean "captured"
-    t.integer "player_id"
+    t.integer "player_game_id"
     t.integer "game_id"
   end
 

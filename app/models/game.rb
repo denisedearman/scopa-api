@@ -9,7 +9,14 @@ class Game < ActiveRecord::Base
   end
 
   def on_table
-    self.cards.select{|card| !card.in_deck && !card.player_id}
+    self.cards.select{|card| !card.in_deck && !card.player_game_id}
+  end
+
+  def get_current_player
+    if(self.players[0].hand.length == 0 && self.players[1].hand.length == 0)
+      self.deal
+    end
+    self.players[0].hand.length >= self.players[1].hand.length ? self.players[0] : self.players[1]
   end
 
 
@@ -25,7 +32,7 @@ class Game < ActiveRecord::Base
         for j in 0..2
           card_index = rand(0..self.deck.length-1)
           card = self.deck[card_index]
-          card.assign_to_player(self.players[i])
+          card.assign_to_player(self.player_games[i].id)
         end
       end
     end

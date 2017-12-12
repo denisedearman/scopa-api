@@ -5,13 +5,18 @@ class GamesController < ApplicationController
   end
 
   def play
-    binding.pry
+    if @game.deck.length == 0
+      render json: "End of Round"
+    else
+      render json: @game.get_current_player
+    end
   end
 
   def create
     @game = Game.new(game_params)
     @game.complete = false;
     if @game.save
+      @game.deal
       render json: {"game_id" => @game.id,"player_1" => @game.players[0].name, "player_2" => @game.players[1].name, "cards" => @game.cards}.to_json
     else
       render json: {error: 'Unable to save Game.'}
