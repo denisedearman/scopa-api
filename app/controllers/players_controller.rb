@@ -15,7 +15,11 @@ class PlayersController < ApplicationController
   end
 
   def show
-    render json: @player
+    if params[:game_id]
+      render json: {"player_id" => @player.id, "name" => @player.name}.to_json
+    else
+      render json: @player
+    end
   end
 
   private
