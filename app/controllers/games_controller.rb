@@ -29,9 +29,11 @@ class GamesController < ApplicationController
 
   def summary
     if @game.is_end_game?
-      @game.award_points
+      if !@game.points_awarded
+        @game.award_points
+        @game.points_awarded = true
+      end
       @game.save
-      binding.pry
       render json: {"game_id" => @game.id,
         "status" => "end",
          "player_1" => @game.player_games[0].player.name,

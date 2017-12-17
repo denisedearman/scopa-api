@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171217175323) do
+ActiveRecord::Schema.define(version: 20171217180341) do
 
   create_table "cards", force: :cascade do |t|
     t.string "suit"
@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 20171217175323) do
 
   create_table "games", force: :cascade do |t|
     t.boolean "complete"
+    t.boolean "points_awarded", default: false
   end
 
   create_table "player_games", force: :cascade do |t|
