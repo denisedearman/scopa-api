@@ -1,7 +1,9 @@
 class GamesController < ApplicationController
   before_action :set_game, only: [:show, :play, :summary]
   def index
-    render json: Game.all
+    gameList = []
+    Game.all.each {|game| gameList << {"id" => game.id, "player_1" => game.players[0].name, "player_2" => game.players[1].name}}
+    render json: gameList.to_json
   end
 
   def play
@@ -24,7 +26,7 @@ class GamesController < ApplicationController
   end
 
   def show
-    render json: {"game_id" => @game.id, "player_1" => @game.player_games[0].player.name, "player_1_points" => @game.player_games[0].points, "player_2" => @game.player_games[1].player.name, "player_2_points" => @game.player_games[1].points, "cards" => @game.cards}.to_json
+    render json: {"game_id" => @game.id, "status" => @game.is_end_game? ? "end" : "in_progress", "player_1" => @game.player_games[0].player.name, "player_1_points" => @game.player_games[0].points, "player_2" => @game.player_games[1].player.name, "player_2_points" => @game.player_games[1].points, "cards" => @game.cards}.to_json
   end
 
   def summary

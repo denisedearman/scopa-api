@@ -3,6 +3,14 @@ class PlayerGame < ActiveRecord::Base
   belongs_to :game
   has_many :cards
 
+  def add_scopa_point
+    if !self.scopa_count
+      self.scopa_count = 0
+    end
+    self.scopa_count = self.scopa_count + 1
+    self.save
+  end
+
   def award_point
     if !self.points
       self.points = 0
@@ -48,6 +56,9 @@ class PlayerGame < ActiveRecord::Base
         cards.find_by_id(hand.keys[0]).place_on_table
       else
         cards.find_by_id(hand.keys[0]).capture(player.id, game.id)
+        if table.keys.length == game.on_table.length
+          self.add_scopa_point
+        end
         table.keys.each{|card_id| Card.find_by(id: card_id).capture(player.id, game.id)}
       end
     else
