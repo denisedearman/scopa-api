@@ -15,7 +15,7 @@ class PlayersController < ApplicationController
       game = Game.find_by(id: params[:game_id])
       current_player = game.get_current_player
       if current_player.id == @player.id
-        render json: {"hand" => @player.hand, "table" => game.on_table}.to_json
+          render json: {"hand" => @player.hand, "table" => game.on_table}.to_json
       else
         render json: "Not your turn!"
       end

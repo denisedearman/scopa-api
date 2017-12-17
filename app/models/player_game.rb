@@ -3,6 +3,45 @@ class PlayerGame < ActiveRecord::Base
   belongs_to :game
   has_many :cards
 
+  def award_point
+    if !self.points
+      self.points = 0
+    end
+    self.points = self.points + 1
+    self.save
+  end
+
+  def award_scopa_points
+    if !self.points
+      self.points = 0
+    end
+    self.points = self.points + self.scopa_count
+    self.save
+  end
+
+  def get_coin_count
+    self.player.captures.select {|card| card.suit == "coins"}.length
+  end
+
+  def has_sette_bello
+    self.player.captures.select {|card| card.suit == "coins" && card.value == 7}.length > 0
+  end
+
+  def prime_score
+    sum = 0
+    suits = ['cups', 'coins', 'swords', 'clubs']
+    for i in 0..3
+      max = 0
+      self.player.captures.each do |card|
+        if card.suit == suits[i] && card.points > max
+          max = card.points
+        end
+      end
+      sum += max
+    end
+    sum
+  end
+
   def play_move(hand, table)
     if validate_move(hand, table)
       if !table

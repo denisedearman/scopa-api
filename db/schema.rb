@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171212015631) do
+ActiveRecord::Schema.define(version: 20171217175323) do
 
   create_table "cards", force: :cascade do |t|
     t.string "suit"
@@ -29,7 +29,8 @@ ActiveRecord::Schema.define(version: 20171212015631) do
   create_table "player_games", force: :cascade do |t|
     t.integer "player_id"
     t.integer "game_id"
-    t.integer "points"
+    t.integer "points", default: 0
+    t.integer "scopa_count", default: 0
   end
 
   create_table "players", force: :cascade do |t|

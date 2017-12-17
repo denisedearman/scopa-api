@@ -5,4 +5,5 @@ Rails.application.routes.draw do
     resources :players, only:[:show, :edit, :update]
   end
   get '/games/:id/play' => 'games#play'
+  get '/games/:id/summary' => 'games#summary'
 end

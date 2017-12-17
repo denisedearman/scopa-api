@@ -4,6 +4,31 @@ class Game < ActiveRecord::Base
   has_many :cards
 
 
+  def award_points
+    player_1_count = player_games[0].cards.length
+    player_2_count = player_games[1].cards.length
+    if player_1_count != player_2_count
+      player_1_count > player_2_count ? player_games[0].award_point : player_games[1].award_point
+    end
+    player_1_count = player_games[0].get_coin_count
+    player_2_count = player_games[1].get_coin_count
+    if  player_1_count != player_2_count
+      player_1_count > player_2_count ? player_games[0].award_point : player_games[1].award_point
+    end
+    if player_games[0].has_sette_bello
+      player_games[0].award_point
+    elsif player_games[1].has_sette_bello
+      player_games[1].award_point
+    end
+    player_1_count = player_games[0].prime_score
+    player_2_count = player_games[1].prime_score
+    if player_1_count != player_2_count
+      player_1_count > player_2_count ? player_games[0].award_point : player_games[1].award_point
+    end
+
+    player_games.each {|player| player.award_scopa_points}
+  end
+
   def deck
     self.cards.select{|card| card.in_deck}
   end
@@ -19,6 +44,9 @@ class Game < ActiveRecord::Base
     self.players[0].hand.length >= self.players[1].hand.length ? self.players[0] : self.players[1]
   end
 
+  def is_end_game?
+    deck.length == 0 && self.cards.length != 0 && self.players[0].hand.length == 0 && self.players[1].hand.length == 0
+  end
 
   def deal
     if self.deck.length == 40
@@ -35,6 +63,44 @@ class Game < ActiveRecord::Base
           card.assign_to_player(self.player_games[i].id)
         end
       end
+    end
+  end
+
+  def player_with_most_cards
+    player_1_count = player_games[0].cards.length
+    player_2_count = player_games[1].cards.length
+    if player_1_count != player_2_count
+      player_1_count > player_2_count ? player_games[0].player.name : player_games[1].player.name
+    else
+      "draw"
+    end
+  end
+
+  def player_with_most_coins
+    player_1_count = player_games[0].get_coin_count
+    player_2_count = player_games[1].get_coin_count
+    if player_1_count != player_2_count
+      player_1_count > player_2_count ? player_games[0].player.name : player_games[1].player.name
+    else
+      "draw"
+    end
+  end
+
+  def prime_winner
+    player_1_count = player_games[0].prime_score
+    player_2_count = player_games[1].prime_score
+    if player_1_count != player_2_count
+      player_1_count > player_2_count ? player_games[0].player.name : player_games[1].player.name
+    end
+  end
+
+  def sette_bello
+    if player_games[0].has_sette_bello
+      player_games[0].player.name
+    elsif player_games[1].has_sette_bello
+      player_games[1].player.name
+    else
+      "draw"
     end
   end
 
