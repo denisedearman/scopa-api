@@ -91,6 +91,8 @@ class Game < ActiveRecord::Base
     player_2_count = player_games[1].prime_score
     if player_1_count != player_2_count
       player_1_count > player_2_count ? player_games[0].player.name : player_games[1].player.name
+    else
+      "draw"
     end
   end
 
