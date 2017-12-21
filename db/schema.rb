@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171217180341) do
+ActiveRecord::Schema.define(version: 20171221013206) do
 
   create_table "cards", force: :cascade do |t|
     t.string "suit"
@@ -38,6 +38,7 @@ ActiveRecord::Schema.define(version: 20171217180341) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "like", default: 0
   end
 
 end

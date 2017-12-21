@@ -56,6 +56,7 @@ class PlayersController < ApplicationController
         render json: {"player_id" => @player.id, "name" => @player.name, "turn" => false}.to_json
       end
     else
+      @player.update(player_params)
       render json: @player
     end
   end
@@ -68,6 +69,6 @@ class PlayersController < ApplicationController
   end
 
   def player_params
-    params.require(:player).permit(:name)
+    params.require(:player).permit(:name, :like)
   end
 end

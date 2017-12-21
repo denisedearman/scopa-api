@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :players, except: [:new, :edit, :update, :destroy]
+  resources :players, except: [:new, :edit, :destroy]
   resources :games, except: [:new, :edit, :update, :destroy]
   resources :games, only:[] do
     resources :players, only:[:show, :edit, :update]
