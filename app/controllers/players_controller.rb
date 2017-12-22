@@ -15,7 +15,7 @@ class PlayersController < ApplicationController
       game = Game.find_by(id: params[:game_id])
       current_player = game.get_current_player
       if current_player.id == @player.id
-          render json: {"hand" => @player.hand, "table" => game.on_table}.to_json
+          render json: {"hand" => @player.hand, "table" => game.on_table, "player" => @player, "player_captures" => @player.player_games.find_by(game_id: params[:game_id]).captures.length}.to_json
       else
         render json: "Not your turn!"
       end
@@ -29,11 +29,12 @@ class PlayersController < ApplicationController
   def show
     if params[:game_id]
       game = Game.find_by(id: params[:game_id])
+      player_game = @player.player_games.find_by(game_id: game.id)
       current_player = game.get_current_player
       if current_player.id == @player.id
-        render json: {"player_id" => @player.id, "name" => @player.name, "turn" => true}.to_json
+        render json: {"player_id" => @player.id, "name" => @player.name, "turn" => true, "player_captures" => player_game.captures.length}.to_json
       else
-        render json: {"player_id" => @player.id, "name" => @player.name, "turn" => false}.to_json
+        render json: {"player_id" => @player.id, "name" => @player.name, "turn" => false, "player_captures" => player_game.captures.length}.to_json
       end
     else
       render json: @player

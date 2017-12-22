@@ -27,6 +27,10 @@ class PlayerGame < ActiveRecord::Base
     self.save
   end
 
+  def captures
+    self.cards.select{|card| card.captured}
+  end
+
   def get_coin_count
     self.player.captures.select {|card| card.suit == "coins"}.length
   end

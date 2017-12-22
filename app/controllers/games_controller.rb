@@ -26,7 +26,7 @@ class GamesController < ApplicationController
   end
 
   def show
-    render json: {"game_id" => @game.id, "status" => @game.is_end_game? ? "end" : "in_progress", "player_1" => @game.player_games[0].player.name, "player_1_points" => @game.player_games[0].points, "player_2" => @game.player_games[1].player.name, "player_2_points" => @game.player_games[1].points, "cards" => @game.cards}.to_json
+    render json: {"game_id" => @game.id, "status" => @game.is_end_game? ? "end" : "in_progress", "player_1" => @game.player_games[0].player.name, "player_1_points" => @game.player_games[0].points, "player_1_captured"=> @game.player_games[0].captures.length, "player_2" => @game.player_games[1].player.name, "player_2_points" => @game.player_games[1].points,"player_2_captured"=> @game.player_games[1].captures.length, "cards" => @game.cards}.to_json
   end
 
   def summary
@@ -52,7 +52,7 @@ class GamesController < ApplicationController
          "sette_bello" => @game.sette_bello,
          "table" => @game.on_table}.to_json
     else
-      render json: {"game_id" => @game.id, "status" => "in_progress", "player_1" => @game.player_games[0].player.name, "player_1_points" => @game.player_games[0].points, "player_2" => @game.player_games[1].player.name, "player_2_points" => @game.player_games[1].points, "cards" => @game.cards}.to_json
+      render json: {"game_id" => @game.id, "status" => "in_progress", "player_1" => @game.player_games[0].player.name, "player_1_points" => @game.player_games[0].points, "player_2" => @game.player_games[1].player.name, "player_2_points" => @game.player_games[1].points,"player_1_captured"=> @game.player_games[0].captures.length,"player_2_captured"=> @game.player_games[1].captures.length, "cards" => @game.cards}.to_json
     end
   end
 
